@@ -1,25 +1,35 @@
-// // var coolDancer = function(top, left, timeBetweenSteps) {
-// //   makeBlinkyDancer.call(this, top, left, timeBetweenSteps);
-// //   // this.setPosition(top, left);
-// //   this.step();
-// // }
+var makeCoolDancer = function(top, left, timeBetweenSteps) {
+  makeDancer.call(this, top, left, timeBetweenSteps);
+  this.$node = $('<span class="coolDancer"></span>');
+  this.setPosition(600, $('body').width() * Math.random());
+};
 
-//   // we plan to overwrite the step function below, but we still want the superclass step behavior to work,
-//   // so we must keep a copy of the old version of this function
-// coolDancer.prototype = Object.create(makeBlinkyDancer.prototype);
-// coolDancer.prototype.constructor = coolDancer;
+makeCoolDancer.prototype = Object.create(makeDancer.prototype);
 
-// var oldStep = coolDancer.prototype.step;
+makeCoolDancer.prototype.constructor = makeCoolDancer;
 
-// coolDancer.prototype.step = function() {
-//   // call the old version of step at the beginning of any call to this new version of step
-//   // clearInterval();
-//   // console.log("hi");
-//   // oldStep.call(this);
-  
-//   // toggle() is a jQuery method to show/hide the <span> tag.
-//   // See http://api.jquery.com/category/effects/ for this and
-//   // other effects you can use on a jQuery-wrapped html tag.
-// };
+var oldStep = makeCoolDancer.prototype.step;
 
+makeCoolDancer.prototype.step = function() {
+  // if(!$(".coolDancer").hasClass(".lineUp")) {
+  this.animate();
+  oldStep.call(this);
+  // } 
+  // if ($(".coolDancer").hasClass(".lineUp")) {
+  //   alert('hasLineUp!')
+  //   $('.coolDancer').css("animation", "none");
+  // }
+};
+
+makeCoolDancer.prototype.animate = function() {
+  var randomHeight = $('body').height() * Math.random();
+  var randomWidth = $('body').width() * Math.random();
+  var animationTime = 500;
+  $('.coolDancer').animate({top: randomHeight, animationTime});
+  $('.coolDancer').animate({width: this.getRandomInt(50, 100), height: this.getRandomInt(50, 100)}, 200);
+  $('.coolDancer').hover(function() {
+    $(this).height(400);
+    $(this).width(400);
+  });
+}
 
